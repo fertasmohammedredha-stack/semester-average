@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>نظام حساب المعدل الفصلي | Semester Average Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="header-title" id="headerTitle">نظام حساب المعدل الفصلي</h1>
+            <p class="header-subtitle" id="headerSubtitle">نظام إلكتروني لحساب المعدل الفصلي للطلاب</p>
+
+            <div class="controls">
+                <div class="student-name-input">
+                    <input type="text" id="studentName" placeholder="اسم الطالب / Nom / Name" maxlength="50">
+                </div>
+                <div class="lang-selector">
+                    <button class="lang-btn active" onclick="setLanguage('ar')">🇸🇦 العربية</button>
+                    <button class="lang-btn" onclick="setLanguage('fr')">🇫🇷 Français</button>
+                    <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙 الوضع الليلي</button>
+            </div>
+        </header>
+
+        <div class="subjects-container" id="subjectsContainer"></div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="calculateAverage()" id="btnCalculate">حساب المعدل</button>
+            <button class="btn btn-danger" onclick="resetAll()" id="btnReset">إعادة تعيين</button>
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <h2 id="resultsTitle">النتائج</h2>
+            <div class="average-display" id="averageDisplay">0.00</div>
+            <div class="status-badge" id="statusBadge"></div>
+            <div class="motivation-message" id="motivationMessage"></div>
+
+            <div class="subjects-results">
+                <h3 id="subjectResultsTitle">نتائج المواد</h3>
+                <table class="result-table" id="resultsTable"></table>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-success" onclick="exportToPDF()" id="btnExport">📄 تصدير إلى PDF</button>
+            </div>
+        </div>
+
+        <footer>
+            <p id="footerText">© 2026 نظام إدارة الطلاب - جميع الحقوق محفوظة</p>
+            <p class="developer-credit">Developed by <span class="developer-name">Fertas Mohammed Redha</span></p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/amiri-font/1.0.0/Amiri-Regular.ttf"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
