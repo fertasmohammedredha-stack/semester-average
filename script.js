@@ -127,10 +127,12 @@ const subjectConfig = {
 };
 
 let currentLang = 'fr';
-let currentTheme = 'light';
+let currentTheme = 'dark';
 let subjectsData = {};
 
 function init() {
+    document.body.setAttribute('data-theme', 'dark');
+    
     loadFromStorage();
     initializeSubjectsData();
     renderSubjects();
@@ -138,6 +140,11 @@ function init() {
 
     if (currentTheme === 'dark') {
         document.body.setAttribute('data-theme', 'dark');
+    }
+    
+    const themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) {
+        themeBtn.textContent = translations[currentLang][currentTheme === 'dark' ? 'themeToggleLight' : 'themeToggle'];
     }
 }
 
@@ -569,6 +576,8 @@ function loadFromStorage() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         currentTheme = savedTheme;
+    } else {
+        currentTheme = 'dark';
     }
 
     const savedData = localStorage.getItem('subjectsData');
