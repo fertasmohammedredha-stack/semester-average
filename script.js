@@ -126,7 +126,7 @@ const subjectConfig = {
     ]
 };
 
-let currentLang = 'ar';
+let currentLang = 'fr';
 let currentTheme = 'light';
 let subjectsData = {};
 
@@ -286,7 +286,7 @@ function calculateAverage() {
         totalCoefficients += coef;
 
         results.push({
-            name: subject.name[currentLang],
+            name: subject.name,
             coefficient: coef,
             type: subject.type,
             continuous: subject.continuous,
@@ -344,7 +344,7 @@ function displayResults(average, results) {
 
         tableHTML += `
             <tr>
-                <td>${result.name}</td>
+                <td>${result.name[currentLang]}</td>
                 <td>${result.coefficient}</td>
                 <td>${typeLabel}</td>
                 <td>${gradesText}</td>
@@ -371,25 +371,21 @@ function exportToPDF() {
     const average = parseFloat(localStorage.getItem('lastAverage')) || 0;
     const results = JSON.parse(localStorage.getItem('lastResults') || '[]');
     const passed = average >= 10;
-    const studentName =
-        document.getElementById('studentName').value.trim() || 'Student';
+    const studentName = document.getElementById('studentName').value.trim() || 'Student';
 
     const pageWidth = doc.internal.pageSize.width;
     const pageHeight = doc.internal.pageSize.height;
 
-    /* ===== Title ===== */
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
     doc.setTextColor(26, 84, 144);
     doc.text(translations[pdfLang].pdfTitle, pageWidth / 2, 20, { align: "center" });
 
-    /* ===== Student ===== */
     doc.setFontSize(12);
     doc.setTextColor(40);
-    const nameLabel = pdfLang === 'fr' ? 'Étudiant' : 'Student';
+    const nameLabel = pdfLang === 'fr' ? 'Etudiant' : 'Student';
     doc.text(`${nameLabel} : ${studentName}`, pageWidth / 2, 30, { align: "center" });
 
-    /* ===== Date ===== */
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     const date = new Date().toLocaleDateString(
@@ -398,28 +394,23 @@ function exportToPDF() {
     );
     doc.text(`Date : ${date}`, pageWidth / 2, 38, { align: "center" });
 
-    /* ===== Average ===== */
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.setTextColor(passed ? 40 : 220, passed ? 167 : 53, passed ? 69 : 69);
-    const avgLabel =
-        pdfLang === 'fr' ? 'Moyenne Semestrielle' : 'Semester Average';
+    const avgLabel = pdfLang === 'fr' ? 'Moyenne Semestrielle' : 'Semester Average';
     doc.text(`${avgLabel} : ${average.toFixed(2)}`, pageWidth / 2, 50, { align: "center" });
 
-    /* ===== Status ===== */
     doc.setFontSize(13);
     doc.setTextColor(0);
     const statusLabel = pdfLang === 'fr' ? 'Statut' : 'Status';
     const statusValue = passed
         ? (pdfLang === 'fr' ? 'Admis' : 'Passed')
-        : (pdfLang === 'fr' ? 'Ajourné' : 'Failed');
+        : (pdfLang === 'fr' ? 'Ajourne' : 'Failed');
     doc.text(`${statusLabel} : ${statusValue}`, pageWidth / 2, 60, { align: "center" });
 
-    /* ===== Table ===== */
-    const tableHeaders =
-        pdfLang === 'fr'
-            ? ['Matière', 'Coef', 'Type', 'Notes', 'Final']
-            : ['Subject', 'Coef', 'Type', 'Grades', 'Final'];
+    const tableHeaders = pdfLang === 'fr'
+        ? ['Matiere', 'Coef', 'Type', 'Notes', 'Final']
+        : ['Subject', 'Coef', 'Type', 'Grades', 'Final'];
 
     const tableData = results.map(r => {
         let grades = '';
@@ -431,15 +422,16 @@ function exportToPDF() {
             grades = `TP: ${r.practical || '-'}`;
         }
 
-        const typeText =
-            r.type === 'core'
-                ? (pdfLang === 'fr' ? 'Fondamental' : 'Core')
-                : r.type === 'examOnly'
-                    ? (pdfLang === 'fr' ? 'Examen' : 'Exam')
-                    : (pdfLang === 'fr' ? 'Pratique' : 'Practical');
+        const typeText = r.type === 'core'
+            ? (pdfLang === 'fr' ? 'Fondamental' : 'Core')
+            : r.type === 'examOnly'
+                ? (pdfLang === 'fr' ? 'Examen' : 'Exam')
+                : (pdfLang === 'fr' ? 'Pratique' : 'Practical');
+
+        const subjectName = r.name[pdfLang] || r.name['fr'] || r.name['en'];
 
         return [
-            r.name,
+            subjectName,
             r.coefficient.toString(),
             typeText,
             grades,
@@ -455,12 +447,19 @@ function exportToPDF() {
         headStyles: {
             fillColor: [26, 84, 144],
             textColor: 255,
-            halign: 'center'
+            halign: 'center',
+            fontSize: 10,
+            fontStyle: 'bold'
         },
-        bodyStyles: { halign: 'center', fontSize: 9 },
+        bodyStyles: { 
+            halign: 'center', 
+            fontSize: 9 
+        },
         styles: {
             font: 'helvetica',
-            cellPadding: 4
+            cellPadding: 4,
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1
         },
         columnStyles: {
             0: { cellWidth: 60, halign: 'left' },
@@ -468,10 +467,12 @@ function exportToPDF() {
             2: { cellWidth: 25 },
             3: { cellWidth: 55 },
             4: { cellWidth: 20 }
+        },
+        alternateRowStyles: {
+            fillColor: [245, 247, 250]
         }
     });
 
-    /* ===== Message ===== */
     const finalY = doc.lastAutoTable.finalY + 12;
     doc.setFont("helvetica", "italic");
     doc.setFontSize(10);
@@ -484,9 +485,9 @@ function exportToPDF() {
     const splitMsg = doc.splitTextToSize(message, pageWidth - 30);
     doc.text(splitMsg, pageWidth / 2, finalY, { align: 'center' });
 
-    /* ===== Footer ===== */
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
+    doc.setTextColor(100);
     doc.text(
         'Developed by Fertas Mohammed Redha',
         pageWidth / 2,
@@ -581,15 +582,18 @@ function loadFromStorage() {
 
     const savedName = localStorage.getItem('studentName');
     if (savedName) {
-        document.getElementById('studentName').value = savedName;
+        const nameInput = document.getElementById('studentName');
+        if (nameInput) nameInput.value = savedName;
     }
 
-    const nameInput = document.getElementById('studentName');
-    if (nameInput) {
-        nameInput.addEventListener('input', function () {
-            localStorage.setItem('studentName', this.value);
-        });
-    }
+    setTimeout(() => {
+        const nameInput = document.getElementById('studentName');
+        if (nameInput) {
+            nameInput.addEventListener('input', function () {
+                localStorage.setItem('studentName', this.value);
+            });
+        }
+    }, 100);
 }
 
 window.addEventListener('DOMContentLoaded', init);
