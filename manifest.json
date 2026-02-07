@@ -1,20 +1,23 @@
 {
-    "name": "حاسبة المعدل الفصلي",
-    "short_name": "المعدل",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#0f9d58",
-    "icons": [
-        {
-            "src": "icons/icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+  "name": "AverageCalc ELN S3",
+  "short_name": "ELN S3",
+  "description": "حاسبة المعدل الفصلي لطلبة إلكترونيك سنة ثانية سداسي أول",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1f44",
+  "theme_color": "#0b1f44",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
