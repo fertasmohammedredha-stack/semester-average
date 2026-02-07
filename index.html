@@ -1,24 +1,32 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
+    <!-- Basic -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0b1f44">
 
-    <!-- SEO الأساسي -->
-    <title>حساب المعدل الفصلي للطلبة | Semester Average Calculator</title>
-    <meta name="description" content="موقع مجاني لحساب المعدل الفصلي للطلبة الجامعيين بسهولة ودقة. يدعم النظام الجامعي الجزائري بعدة لغات.">
+    <!-- Title & SEO -->
+    <title>AverageCalc ELN S3 | حساب المعدل إلكترونيك</title>
+    <meta name="description"
+        content="تطبيق حساب المعدل الفصلي لطلبة إلكترونيك سنة ثانية سداسي أول، وفق النظام الجامعي الجزائري.">
 
-    <!-- Open Graph (Google / Facebook / WhatsApp) -->
-    <meta property="og:title" content="نظام حساب المعدل الفصلي للطلبة">
-    <meta property="og:description" content="احسب معدلك الجامعي بسهولة وبشكل مجاني">
+    <!-- Open Graph (WhatsApp / Facebook) -->
+    <meta property="og:title" content="AverageCalc ELN S3">
+    <meta property="og:description" content="احسب معدلك الفصلي لطلبة إلكترونيك L2 S3 بسهولة">
     <meta property="og:url" content="https://fertasmohammedredha-stack.github.io/">
-    <meta property="og:image" content="https://fertasmohammedredha-stack.github.io/icon.png">
+    <meta property="og:image"
+        content="https://fertasmohammedredha-stack.github.io/icons/icon-512.png">
 
-    <!-- Favicon & CSS -->
-    <link rel="icon" href="icon.png">
+    <!-- Icons -->
+    <link rel="icon" href="icons/icon-192.png">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Google Analytics -->
@@ -33,23 +41,33 @@
 
 <body>
     <div class="container">
+
         <header>
-            <h1 class="header-title" id="headerTitle">Système de Calcul de Moyenne Semestrielle</h1>
+            <h1 class="header-title" id="headerTitle">
+                Système de Calcul de Moyenne – Electronique L2 S3
+            </h1>
+
             <p class="header-subtitle" id="headerSubtitle">
-                Système électronique pour le calcul de la moyenne semestrielle des étudiants
+                Application dédiée aux étudiants d’électronique – Semestre 3
             </p>
 
             <div class="controls">
+
                 <div class="student-name-input">
                     <input type="text" id="studentName"
-                        placeholder="Nom de l'étudiant / Student Name / اسم الطالب" maxlength="50">
+                        placeholder="Nom de l'étudiant / Student Name / اسم الطالب"
+                        maxlength="50">
                 </div>
+
                 <div class="lang-selector">
-                    <button class="lang-btn" onclick="setLanguage('ar')">🇸🇦 العربية</button>
+                    <button class="lang-btn" onclick="setLanguage('ar')">🇩🇿 العربية</button>
                     <button class="lang-btn active" onclick="setLanguage('fr')">🇫🇷 Français</button>
                     <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 English</button>
                 </div>
-                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙 Mode Nuit</button>
+
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+                    🌙 Mode Nuit
+                </button>
             </div>
         </header>
 
@@ -66,6 +84,7 @@
 
         <div class="result-card" id="resultCard">
             <h2 id="resultsTitle">Résultats</h2>
+
             <div class="average-display" id="averageDisplay">0.00</div>
             <div class="status-badge" id="statusBadge"></div>
             <div class="motivation-message" id="motivationMessage"></div>
@@ -83,16 +102,30 @@
         </div>
 
         <footer>
-            <p id="footerText">© 2026 Système de Gestion des Étudiants - Tous droits réservés</p>
+            <p id="footerText">
+                © 2026 AverageCalc ELN S3 – Tous droits réservés
+            </p>
             <p class="developer-credit">
                 Developed by <span class="developer-name">Fertas Mohammed Redha</span>
             </p>
         </footer>
+
     </div>
 
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-    <script src="script.js"></script>
-</body>
 
+    <!-- Main Script -->
+    <script src="script.js"></script>
+
+    <!-- Service Worker (PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
 </html>
